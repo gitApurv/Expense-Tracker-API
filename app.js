@@ -20,6 +20,7 @@ app.use(authRoutes);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
+    console.log("Connected to MongoDB");
     app.listen(3000);
   })
   .catch((err) => {

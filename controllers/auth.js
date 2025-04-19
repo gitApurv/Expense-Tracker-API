@@ -1,5 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 exports.postSignup = (req, res, next) => {
   const { username, password } = req.body;
@@ -31,30 +34,32 @@ exports.postSignup = (req, res, next) => {
     });
 };
 
-exports.postLogin = (req, res, next) => {
+exports.postLogin = async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  User.findOne({ username: username })
-    .then((user) => {
-      if (!user) {
-        res.status(401).json({
-          message: "User not found",
-        });
-      }
-      return bcrypt.compare(password, user.password);
-    })
-    .then((isMatch) => {
-      if (!isMatch) {
-        return res.status(401).json({
-          message: "Invalid credentials",
-        });
-      }
-      res.status(200).json({
-        message: "Login successful",
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+  const user = await User.findOne({ username: username });
+  if (!user) {
+    res.status(401).json({
+      message: "User not found",
     });
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(401).json({
+      message: "Invalid credentials",
+    });
+  }
+  const token = jwt.sign(
+    { id: user._id, username: user.username },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+
+  res.status(200).json({
+    message: "Login successful",
+    token: token,
+  });
 };
