@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 
 //Middleware
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 //Routes
 app.use(authRoutes);
