@@ -19,6 +19,7 @@ module.exports.getExpenses = async (req, res, next) => {
 module.exports.createExpense = async (req, res, next) => {
   const { amount, description, category } = req.body;
   const userId = req.user.id;
+
   try {
     const expense = new Expense({
       amount: amount,
