@@ -1,36 +1,39 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 
 //Importing Middlewares
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 //Importing Routes
 const authRoutes = require("./routes/auth");
 const expenseRoutes = require("./routes/expense");
 
+//Creating the express app
 const app = express();
 
-//Middleware
+//Using Middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-//Routes
+//Using Routes
 app.use(authRoutes);
 app.use(expenseRoutes);
 
+//Error Handling Middleware
 app.use((error, req, res, next) => {
   res.status(500).json({
     message: error.message,
   });
 });
 
+//Connecting to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("Connected to MongoDB");
+    //Starting the server
     app.listen(3000);
   })
   .catch((err) => {

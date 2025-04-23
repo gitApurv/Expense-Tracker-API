@@ -1,21 +1,33 @@
+//Importing Express
 const express = require("express");
 
+//Creating the router
 const router = express.Router();
 
-const expenseController = require("../controllers/expense");
-
+//Importing Middleware
 const authMiddleware = require("../middleware/auth");
 
-router.get("/expense", authMiddleware, expenseController.getExpenses);
+//Importing Controller
+const expenseController = require("../controllers/expense");
 
+//Get all expenses
+router.get("/expenses", authMiddleware, expenseController.getExpenses);
+
+//Get a single expense
+router.get("/expense/:id", authMiddleware, expenseController.getExpense);
+
+//Create a new expense
 router.post("/create-expense", authMiddleware, expenseController.createExpense);
 
+//Update an expense
 router.post("/edit-expense/:id", authMiddleware, expenseController.editExpense);
 
+//Delete an expense
 router.post(
   "/delete-expense/:id",
   authMiddleware,
   expenseController.deleteExpense
 );
 
+//Exporting the router
 module.exports = router;
