@@ -152,3 +152,35 @@ module.exports.deleteExpense = async (req, res, next) => {
     });
   }
 };
+
+module.exports.getSummary = async (req, res, next) => {
+  const userId = req.user.id;
+
+  const expenses = await Expense.find({ user: userId });
+
+  if (!expenses) {
+    return res.status(404).json({
+      message: "No expenses found",
+    });
+  }
+
+  const totalSpent = expenses.reduce((acc, expense) => {
+    return acc + expense.amount;
+  }, 0);
+
+  const byCategory = {};
+  const monthlyBreakdown = {};
+
+  expenses.forEach(({ amount, category, date }) => {
+    byCategory[category] = (byCategory[category] || 0) + amount;
+    const month = new Date(date).toISOString().slice(0, 7);
+    monthlyBreakdown[month] = (monthlyBreakdown[month] || 0) + amount;
+  });
+
+  res.status(200).json({
+    message: "Summary fetched successfully",
+    totalSpent,
+    byCategory,
+    monthlyBreakdown,
+  });
+};

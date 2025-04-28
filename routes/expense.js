@@ -29,5 +29,7 @@ router.post(
   expenseController.deleteExpense
 );
 
+router.get("/summary", authMiddleware, expenseController.getSummary);
+
 //Exporting the router
 module.exports = router;
