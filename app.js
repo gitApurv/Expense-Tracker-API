@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -13,6 +14,7 @@ const expenseRoutes = require("./routes/expense");
 
 //Creating the express app
 const app = express();
+app.use(cors());
 
 //Using Middlewares
 app.use(bodyParser.json());
@@ -34,7 +36,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     //Starting the server
-    app.listen(3000);
+    app.listen(8080);
   })
   .catch((err) => {
     console.log(err);

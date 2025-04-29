@@ -57,8 +57,9 @@ exports.postLogin = async (req, res, next) => {
   //Finding the user
   const user = await User.findOne({ username: username });
   if (!user) {
-    res.status(401).json({
+    return res.status(401).json({
       message: "User not found",
+      success: false,
     });
   }
 
@@ -69,6 +70,7 @@ exports.postLogin = async (req, res, next) => {
   if (!isMatch) {
     return res.status(401).json({
       message: "Invalid credentials",
+      success: false,
     });
   }
 
@@ -92,6 +94,7 @@ exports.postLogin = async (req, res, next) => {
   //Sending the response
   res.status(200).json({
     message: "Login successful",
+    success: true,
   });
 };
 
