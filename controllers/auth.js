@@ -32,6 +32,7 @@ exports.postSignup = async (req, res, next) => {
     //Sending the response
     res.status(201).json({
       message: "User created successfully",
+      success: true,
     });
   } catch (err) {
     //Checking if the username already exists
@@ -39,11 +40,13 @@ exports.postSignup = async (req, res, next) => {
       //Sending the response
       return res.status(409).json({
         message: "Username already exists",
+        success: false,
       });
     } else {
       //Sending the response
       res.status(500).json({
         message: "Internal server error",
+        success: false,
       });
     }
   }
@@ -111,5 +114,6 @@ exports.postLogout = (req, res, next) => {
   //Sending the response
   res.status(200).json({
     message: "Logout successful",
+    success: true,
   });
 };
