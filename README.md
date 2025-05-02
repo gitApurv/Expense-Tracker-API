@@ -4,7 +4,7 @@ A simple and scalable RESTful API for tracking personal expenses. Built using No
 
 🚀 Features
 - User Authentication (JWT-based)
-- Add, edit, and delete expenses and income
+- Add, edit, and delete expenses 
 - Categorize transactions
 - Get monthly and overall summary
 - Secure and RESTful API endpoints
