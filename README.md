@@ -1,6 +1,6 @@
 💸 Expense Tracker API
 
-A simple and scalable RESTful API for tracking personal expenses. Built using Node.js, Express.js, and MongoDB, this project allows users to manage their daily income and expenses efficiently.
+A simple and scalable RESTful API for tracking personal expenses. Built using Node.js, Express.js, and MongoDB, this project allows users to manage their daily expenses efficiently.
 
 🚀 Features
 - User Authentication (JWT-based)
